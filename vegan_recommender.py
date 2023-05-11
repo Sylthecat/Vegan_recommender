@@ -66,7 +66,7 @@ def main():
     menu = ["Home", "Recommend", "About"]
     choice = st.sidebar.selectbox("Menu", menu)
 
-    dataset = load_data("data/vegan_recipes.csv")
+    dataset = load_data("vegan_recipes.csv")
 
     if choice == "Home":
         st.subheader("Home")
