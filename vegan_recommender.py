@@ -146,7 +146,6 @@ def check_password():
 
 if check_password():
     main()
-    st.button("Click me")
 
 if __name__ == '__main__':
     check_password()
