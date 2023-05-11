@@ -1,8 +1,6 @@
 import streamlit as st
 import streamlit.components.v1 as stc
-
 import pandas as pd
-import neattext.functions as nfx
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity, linear_kernel
 
@@ -11,17 +9,6 @@ from sklearn.metrics.pairwise import cosine_similarity, linear_kernel
 @st.cache_data
 def load_data(data):
     dataset = pd.read_csv(data)
-    dataset['Joined'] = dataset.apply(lambda x: f"{x['title']}{x['ingredients']}{x['preparation']}", axis=1)
-
-    dataset['pp_Joined'] = dataset['Joined'].apply(nfx.remove_stopwords)
-    dataset['pp_Joined'] = dataset['pp_Joined'].apply(nfx.remove_terms_in_bracket)
-    dataset['pp_Joined'] = dataset['pp_Joined'].apply(nfx.remove_special_characters)
-    dataset['pp_Joined'] = dataset['pp_Joined'].apply(nfx.remove_numbers)
-    dataset['pp_Joined'] = dataset['pp_Joined'].apply(nfx.remove_shortwords)
-    dataset['pp_Joined'] = dataset['pp_Joined'].str.lower()
-    # data['pp_combined_features'] = data['pp_combined_features'].map(remover)
-    dataset['pp_Joined'] = dataset['pp_Joined'].apply(nfx.remove_punctuations)
-    dataset['title'] = dataset['title'].str.lower()
     return dataset
 
 
@@ -48,7 +35,7 @@ def get_recommendation(joined, csm, dataset, no_rec=10):
     selected_recipe_similarity = [i[1] for i in similarity[1:]]
 
     # Get the dataset and recipe title
-    result_dataset = dataset.iloc[selected_recipe_indices]
+    result_dataset = dataset.loc[selected_recipe_indices]
     result_dataset['similarity'] = selected_recipe_similarity
     final_recommendations = result_dataset[['title', 'similarity', 'href', 'ingredients', 'preparation']]
     return final_recommendations.head(no_rec)
@@ -62,7 +49,7 @@ box-shadow:0 0 15px 5px #ccc; background-color: #b3b3cc;
 <p style="color:black;"><span style="color:black;">Similarity:</span>{}</p>
 <p style="color:Blue;"><span style="color:black;">🔗</span><a target="_blank" href="{}">Link</a></p>
 <p style="color:black;">{}</p>
-<p style="color:black;"><span style="color:black;">Preparation:</span>{}</p>
+<p style="color:black;"><span style="color:black;"></span>{}</p>
 </div>
 """
 
