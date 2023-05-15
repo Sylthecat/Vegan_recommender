@@ -43,7 +43,7 @@ def get_recommendation(joined, csm, dataset, no_rec=10):
 
 RESULT_TEMP = """
 <div style="width:90%;height:100%;margin:1px;padding:5px;position:relative;border-radius:5px;border-bottom-right-radius: 80px;
-box-shadow:0 0 15px 5px #ccc; background-color: #d5ff80;
+box-shadow:0 0 15px 5px #ccc; background-color: #ccffcc;
   border-left: 5px solid #6c6c6c;">
 <h4>{}</h4>
 <p style="color:black;"><span style="color:black;">Similarity:</span>{}</p>
@@ -54,7 +54,7 @@ box-shadow:0 0 15px 5px #ccc; background-color: #d5ff80;
 """
 RESULTS_EXCEPT_TEMP = """
 <div style="width:90%;height:100%;margin:1px;padding:5px;position:relative;border-radius:5px;border-bottom-right-radius: 80px;
-box-shadow:0 0 15px 5px #ccc; background-color: #d5ff80;
+box-shadow:0 0 15px 5px #ccc; background-color: #ccffcc;
   border-left: 5px solid #6c6c6c;">
 <h4>{}</h4>
 <p style="color:black;"><span style="color:black;"></span>{}</p>
