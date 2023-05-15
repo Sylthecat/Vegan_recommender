@@ -52,7 +52,17 @@ box-shadow:0 0 15px 5px #ccc; background-color: #b3b3cc;
 <p style="color:black;"><span style="color:black;"></span>{}</p>
 </div>
 """
-
+RESULTS_EXCEPT_TEMP = """
+<div style="width:90%;height:100%;margin:1px;padding:5px;position:relative;border-radius:5px;border-bottom-right-radius: 80px;
+box-shadow:0 0 15px 5px #ccc; background-color: #b3b3cc;
+  border-left: 5px solid #6c6c6c;">
+<h4>{}</h4>
+<p style="color:black;"><span style="color:black;"></span>{}</p>
+<p style="color:Blue;"><span style="color:black;">🔗</span><a target="_blank" href="{}">Link</a></p>
+<p style="color:black;">{}</p>
+<p style="color:black;"><span style="color:black;"></span>{}</p>
+</div>
+"""
 
 # Search For Recipe
 def search_term_if_not_found(term, dataset):
@@ -70,7 +80,15 @@ def main():
 
     if choice == "Home":
         st.subheader("Home")
-        st.dataframe(dataset.head(10))
+        for row in dataset.iterrows():
+            rec_id = row[1][0]
+            rec_link = row[1][1]
+            rec_title = row[1][2]
+            rec_ingredients = row[1][3]
+            rec_preparation = row[1][4]
+
+            stc.html(RESULTS_EXCEPT_TEMP.format(rec_id, rec_title, rec_link, rec_ingredients, rec_preparation),
+                     height=800)
 
     elif choice == "Recommend":
         st.subheader("Recommend Recipes")
@@ -82,9 +100,6 @@ def main():
             if search_term is not None:
                 try:
                     results = get_recommendation(search_term, csm, dataset, no_rec)
-                    with st.expander("Results as JSON"):
-                        results_json = results.to_dict('index')
-                        st.write(results_json)
 
                     for row in results.iterrows():
                         rec_title = row[1][0]
@@ -94,19 +109,27 @@ def main():
                         rec_preparation = row[1][4]
 
                         stc.html(RESULT_TEMP.format(rec_title, rec_score, rec_link, rec_ingredients, rec_preparation),
-                                 height=350)
+                                 height=800)
 
                 except:
                     results = "Not Found"
                     st.warning(results)
                     st.info("Suggested Options include")
                     results_dataset = search_term_if_not_found(search_term, dataset)
-                    st.dataframe(results_dataset)
+
+                    for row in results_dataset.iterrows():
+                        rec_id = row[1][0]
+                        rec_link = row[1][1]
+                        rec_title = row[1][2]
+                        rec_ingredients = row[1][3]
+                        rec_preparation = row[1][4]
+
+                        stc.html(RESULTS_EXCEPT_TEMP.format(rec_id, rec_title, rec_link, rec_ingredients, rec_preparation),
+                                 height=800)
 
 
         else:
-            st.subheader("About")
-            st.text("Built with Streamlit & Pandas")
+            st.text("Please input a food item or recipe and press the recommend button")
 
 
 def check_password():
@@ -127,16 +150,16 @@ def check_password():
 
     if "password_correct" not in st.session_state:
         # First run, show inputs for username + password.
-        st.text_input("Username", on_change=password_entered, key="username")
+        st.text_input("Username", on_change=password_entered, key="username_input")
         st.text_input(
-            "Password", type="password", on_change=password_entered, key="password"
+            "Password", type="password", on_change=password_entered, key="password_input"
         )
         return False
     elif not st.session_state["password_correct"]:
         # Password not correct, show input + error.
-        st.text_input("Username", on_change=password_entered, key="username")
+        st.text_input("Username", on_change=password_entered, key="username_retry")
         st.text_input(
-            "Password", type="password", on_change=password_entered, key="password"
+            "Password", type="password", on_change=password_entered, key="password_retry"
         )
         st.error("😕 User not known or password incorrect")
         return False
