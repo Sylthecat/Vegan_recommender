@@ -73,7 +73,7 @@ def search_term_if_not_found(term, dataset):
 def main():
     st.title('Recipe Recommendation App')
 
-    menu = ["Home", "Recommend", "About"]
+    menu = ["Home", "Recommend", "Add Recipe"]
     choice = st.sidebar.selectbox("Menu", menu)
 
     dataset = load_data("vegan_recipes.csv")
