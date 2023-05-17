@@ -117,8 +117,6 @@ def main():
                                  height=800)
 
                 except:
-                    results = "Not Found"
-                    st.warning(results)
                     st.info("Suggested Options include")
                     results_dataset = search_term_if_not_found(search_term, dataset)
 
