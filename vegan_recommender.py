@@ -77,18 +77,23 @@ def main():
     choice = st.sidebar.selectbox("Menu", menu)
 
     dataset = load_data("vegan_recipes.csv")
+    datasetHome = dataset.head()
 
     if choice == "Home":
         st.subheader("Home")
-        for row in dataset.iterrows():
-            rec_id = row[1][0]
-            rec_link = row[1][1]
-            rec_title = row[1][2]
-            rec_ingredients = row[1][3]
-            rec_preparation = row[1][4]
 
-            stc.html(RESULTS_EXCEPT_TEMP.format(rec_id, rec_title, rec_link, rec_ingredients, rec_preparation),
-                     height=800)
+        try:
+            for row in datasetHome.iterrows():
+                rec_id = row[1][0]
+                rec_link = row[1][1]
+                rec_title = row[1][2]
+                rec_ingredients = row[1][3]
+                rec_preparation = row[1][4]
+
+                stc.html(RESULTS_EXCEPT_TEMP.format(rec_id, rec_title, rec_link, rec_ingredients, rec_preparation),
+                         height=800)
+        except:
+            st.info("error")
 
     elif choice == "Recommend":
         st.subheader("Recommend Recipes")
