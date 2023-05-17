@@ -101,7 +101,7 @@ def main():
         search_term = st.text_input("search").lower()
         print(search_term)
         no_rec = st.sidebar.number_input("Number", 4, 30, 7)
-        if st.button("Recommend"):
+        if st.button("Recommend") or search_term:
             if search_term is not None:
                 try:
                     results = get_recommendation(search_term, csm, dataset, no_rec)
